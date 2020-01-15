@@ -1,73 +1,17 @@
-import React, { Component } from 'react';
-import './App.css';
-import Header from './Header';
+import React, { useState, useEffect } from 'react';
 
-class App extends Component {
-  state = {
-    firstname: '',
-    lastname: ''
-  };
+const App = () => {
+  const [count, setCount] = useState(0);
 
-  handleChangeFirstname = event => {
-    this.setState({
-      firstname: event.target.value
-    });
-  };
-  handleChangeLastname = event => {
-    this.setState({
-      lastname: event.target.value
-    });
-  };
+  useEffect(() => {});
 
-  resetInputs = () => {
-    this.setState({ firstname: '', lastname: '' });
-  };
+  return (
+    <div style={{ margin: '1em' }}>
+      <h1>Current count is {count}</h1>
+      <button onClick={() => setCount(count + 1)}>INCREMENT</button>
+      <button onClick={() => setCount(count + -1)}>DECREMENT</button>
+    </div>
+  );
+};
 
-  render() {
-    const divStyle = {
-      textAlign: 'center',
-      marginTop: 50
-    };
-    const inputValueStyle = {
-      fontSize: 20,
-      backgroundColor: 'yellow',
-      color: 'red'
-    };
-
-    return (
-      <div style={divStyle}>
-        <Header />
-        <div>
-          <label style={{ fontSize: 20 }}>Firstname : </label>
-          <input
-            style={inputValueStyle}
-            name={this.state.firstname}
-            onChange={this.handleChangeFirstname}
-          />
-          <span>{this.state.firstname}</span>
-        </div>
-
-        <div>
-          <label style={{ fontSize: 20 }}>Lastname : </label>
-          <input
-            style={inputValueStyle}
-            lastname={this.state.lastname}
-            onChange={this.handleChangeLastname}
-          />
-          <span>{this.state.lastname}</span>
-        </div>
-
-        <button style={{ margin: 20, fontSize: 20, color: 'purple' }}>
-          Gonder
-        </button>
-        <button
-          style={{ margin: 20, fontSize: 20, color: 'purple' }}
-          onClick={this.resetInputs}
-        >
-          Resetle
-        </button>
-      </div>
-    );
-  }
-}
 export default App;
