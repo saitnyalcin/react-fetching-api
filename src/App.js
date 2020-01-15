@@ -1,15 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import Counter from './featureComponents/Counter';
+import People from './featureComponents/People';
 
 const App = () => {
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {});
-
   return (
     <div style={{ margin: '1em' }}>
-      <h1>Current count is {count}</h1>
-      <button onClick={() => setCount(count + 1)}>INCREMENT</button>
-      <button onClick={() => setCount(count + -1)}>DECREMENT</button>
+      <Counter />
+      <People />
     </div>
   );
 };
