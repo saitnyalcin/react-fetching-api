@@ -24,7 +24,7 @@ const People = ({ classes }) => {
 
   return (
     <div className={classes.root}>
-      <div className="list-heading">Name List</div>
+      <div className="list-heading">Name database</div>
       <h1>{nameList}</h1>
     </div>
   );
