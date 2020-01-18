@@ -1,31 +1,82 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { withStyles } from '@material-ui/core/styles';
+import axios from 'axios';
+import Check from '@material-ui/icons/CheckCircle';
 
-// Define the CSS styles you which to apply to your component
 const styles = {
   root: {
-    color: 'red',
     '& .list-heading': {
       fontSize: '2em',
       color: 'Blue',
-      marginTop: '2em',
+      marginTop: '1em',
       fontWeight: 'bold'
+    },
+    '& .data-successMessage': {
+      color: 'Green',
+      marginTop: '1em',
+      fontWeight: 'bold'
+    },
+    '& .data-errorMessage': {
+      color: 'Red',
+      marginTop: '1em',
+      fontWeight: 'bold'
+    },
+    '& .data-person': {
+      marginTop: '1em'
     }
   }
 };
 
 const People = ({ classes }) => {
-  const names = ['Steve', 'David', 'John', 'Sally'];
-  const nameList = names.map((name, key) => (
-    <ul style={{ listStyle: 'none' }}>
-      <li key={`person-${key}`}>{name}</li>
-    </ul>
-  ));
+  const [data, setData] = useState([]);
+  const [isLoading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+
+  const callApi = async () => {
+    const result = await axios('https://jsonplaceholder.typicode.com/posts');
+    setData(result.data);
+  };
+
+  useEffect(() => {
+    setInterval(() => {
+      try {
+        callApi();
+      } catch (error) {
+        console.error(error);
+      }
+      setLoading({ isLoadimg: true });
+      setError({ error: true });
+    }, 2000);
+  }, []);
+
+  useEffect(() => {
+    clearInterval();
+  });
 
   return (
     <div className={classes.root}>
-      <div className="list-heading">Name database</div>
-      <h1>{nameList}</h1>
+      <div className="list-heading">Json Placeholder Post API</div>
+      <div>
+        {error && (
+          <p className="data-successMessage">
+            <Check /> data succesfully fetched... <br />
+          </p>
+        )}
+      </div>
+      <div>
+        {isLoading ? (
+          <>
+            {data.map((title, id) => (
+              <p className="data-person" key={`person-${id}`}>
+                <b> Title : {title.title}</b> <br /> <u>Description </u> :{' '}
+                {title.body}
+              </p>
+            ))}
+          </>
+        ) : (
+          <h2>Loading...</h2>
+        )}
+      </div>
     </div>
   );
 };
