@@ -32,21 +32,31 @@ const People = ({ classes }) => {
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
-  const callApi = async () => {
-    const result = await axios('https://jsonplaceholder.typicode.com/posts');
-    setData(result.data);
-  };
-
   useEffect(() => {
-    setInterval(() => {
-      try {
-        callApi();
-      } catch (error) {
-        console.error(error);
-      }
-      setLoading({ isLoadimg: true });
+    let ignore = false;
+
+    const fetchData = async () => {
+      await axios('https://jsonplaceholder.typicode.com/posts').then(result => {
+        !ignore && setData(result.data);
+        try {
+          if (result.status === 200) {
+            console.log('The data fetching is succesfull..');
+          }
+        } catch (error) {
+          throw new Error(error);
+        }
+      });
+    };
+
+    setTimeout(() => {
+      fetchData();
+      setLoading({ isLoading: true });
       setError({ error: true });
-    }, 2000);
+    }, 1000);
+
+    return () => {
+      ignore = true;
+    };
   }, []);
 
   return (
