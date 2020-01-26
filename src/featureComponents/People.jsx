@@ -38,13 +38,8 @@ const People = ({ classes }) => {
     const fetchData = async () => {
       await axios('https://jsonplaceholder.typicode.com/posts').then(result => {
         !ignore && setData(result.data);
-        try {
-          if (result.status === 200) {
-            console.log('The data fetching is succesfull..');
-          }
-        } catch (error) {
-          throw new Error(error);
-        }
+        result.status === 200 &&
+          console.log('The data fetching is succesfull..');
       });
     };
 
