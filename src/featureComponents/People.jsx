@@ -49,10 +49,6 @@ const People = ({ classes }) => {
     }, 2000);
   }, []);
 
-  useEffect(() => {
-    clearInterval();
-  });
-
   return (
     <div className={classes.root}>
       <div className="list-heading">Json Placeholder Post API</div>
