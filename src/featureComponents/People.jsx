@@ -60,7 +60,8 @@ const People = ({ classes }) => {
       <div>
         {error && (
           <p className="data-successMessage">
-            <Check /> data succesfully fetched... <br />
+            <Check /> data succesfully fetched!
+            <br />
           </p>
         )}
       </div>
