@@ -3,6 +3,7 @@ import { withStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 import Check from '@material-ui/icons/CheckCircle';
 
+// set HOC styling for the view
 const styles = {
   root: {
     '& .list-heading': {
@@ -28,30 +29,42 @@ const styles = {
 };
 
 const People = ({ classes }) => {
-  const [data, setData] = useState([]);
-  const [isLoading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [data, setData] = useState([]); // set state for the api data
+  const [isLoading, setLoading] = useState(false); // set state for user loading alert
+  const [error, setError] = useState(false); // set error state for error message
 
+  // set useEffect hook to control the application life cycle
   useEffect(() => {
-    let ignore = false;
-
+    // set and Api call using the built-in data fetching library
     const fetchData = async () => {
-      await axios('https://jsonplaceholder.typicode.com/posts').then(result => {
-        !ignore && setData(result.data);
-        result.status === 200 &&
-          console.log('The data fetching is succesfull..');
-      });
+      try {
+        await axios('https://jsonplaceholder.typicode.com/posts').then(
+          result => {
+            setData(result.data);
+            // if the data fetching is successfull, then show log in the console
+            result.status === 200 &&
+              console.log('The data fetching is successfull');
+          }
+        );
+
+        // set the catch error if there would be an error occurances
+      } catch (error) {
+        setError(error);
+      }
     };
 
-    setTimeout(() => {
+    // set time out for 1 second to load or show the data on the UI
+    let loadingTimer = setTimeout(() => {
       fetchData();
       setLoading({ isLoading: true });
       setError({ error: true });
     }, 1000);
 
-    return () => {
-      ignore = true;
-    };
+    // this will clear Timeout when component unmont like in willComponentUnmount
+    return () => window.clearTimeout(loadingTimer);
+
+    //useEffect will run only one time
+    //if you pass a value to array, like this [data] than clearTimeout will run every time this value changes (useEffect re-run)
   }, []);
 
   return (

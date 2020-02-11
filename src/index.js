@@ -2,14 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {
   BrowserRouter as Router,
-  Route,
   Link,
-  Redirect
+  Redirect,
+  Route
 } from 'react-router-dom';
 import App from './App';
 import Contact from './featureComponents/Contact';
-import Users from './featureComponents/Users';
 import NotFound from './featureComponents/NotFound';
+import Users from './featureComponents/Users';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
 
