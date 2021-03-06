@@ -1,31 +1,30 @@
-import React, { useState, useEffect } from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import axios from 'axios';
-import Check from '@material-ui/icons/CheckCircle';
+import { withStyles } from "@material-ui/core/styles";
+import Check from "@material-ui/icons/CheckCircle";
+import React, { useEffect, useState } from "react";
 
 // set HOC styling for the view
 const styles = {
   root: {
-    '& .list-heading': {
-      fontSize: '2em',
-      color: 'Blue',
-      marginTop: '1em',
-      fontWeight: 'bold'
+    "& .list-heading": {
+      fontSize: "2em",
+      color: "Blue",
+      marginTop: "1em",
+      fontWeight: "bold",
     },
-    '& .data-successMessage': {
-      color: 'Green',
-      marginTop: '1em',
-      fontWeight: 'bold'
+    "& .data-successMessage": {
+      color: "Green",
+      marginTop: "1em",
+      fontWeight: "bold",
     },
-    '& .data-errorMessage': {
-      color: 'Red',
-      marginTop: '1em',
-      fontWeight: 'bold'
+    "& .data-errorMessage": {
+      color: "Red",
+      marginTop: "1em",
+      fontWeight: "bold",
     },
-    '& .data-person': {
-      marginTop: '1em'
-    }
-  }
+    "& .data-person": {
+      marginTop: "1em",
+    },
+  },
 };
 
 const People = ({ classes }) => {
@@ -33,29 +32,24 @@ const People = ({ classes }) => {
   const [isLoading, setLoading] = useState(false); // set state for user loading alert
   const [error, setError] = useState(false); // set error state for error message
 
+  // set and Api call using the built-in data fetching library
+  async function callPeopleApi() {
+    await fetch("https://jsonplaceholder.typicode.com/posts")
+      .then((response) => response.json())
+      .then((data) => setData(data))
+      .then((result) => {
+        console.log("Success:", result);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }
+
   // set useEffect hook to control the application life cycle
   useEffect(() => {
-    // set and Api call using the built-in data fetching library
-    const fetchData = async () => {
-      try {
-        await axios('https://jsonplaceholder.typicode.com/posts').then(
-          result => {
-            setData(result.data);
-            // if the data fetching is successfull, then show log in the console
-            result.status === 200 &&
-              console.log('The data fetching is successfull');
-          }
-        );
-
-        // set the catch error if there would be an error occurances
-      } catch (error) {
-        setError(error);
-      }
-    };
-
     // set time out for 1 second to load or show the data on the UI
     let loadingTimer = setTimeout(() => {
-      fetchData();
+      callPeopleApi();
       setLoading({ isLoading: true });
       setError({ error: true });
     }, 1000);
@@ -83,7 +77,7 @@ const People = ({ classes }) => {
           <>
             {data.map((title, id) => (
               <p className="data-person" key={`person-${id}`}>
-                <b> Title : {title.title}</b> <br /> <u>Description </u> :{' '}
+                <b> Title : {title.title}</b> <br /> <u>Description </u> :{" "}
                 {title.body}
               </p>
             ))}
